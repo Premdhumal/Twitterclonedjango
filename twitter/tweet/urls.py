@@ -23,4 +23,5 @@ urlpatterns = [
 
     path('api/profile/<str:username>/', views.UserProfileView.as_view(), name='api_profile'),
     path('api/profile/<str:username>/tweets/', views.UserTweetsView.as_view(), name='api_user_tweets'),
+    path('api/csrf/', views.csrf_init, name='api_csrf'),
 ]

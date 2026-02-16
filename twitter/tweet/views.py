@@ -262,3 +262,10 @@ class UserTweetsView(APIView):
         tweets = Tweet.objects.filter(user=user)
         serializer = TweetSerializer(tweets, many=True, context={'request': request})
         return Response(serializer.data)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+@ensure_csrf_cookie
+def csrf_init(request):
+    return JsonResponse({"detail": "CSRF cookie set"})
