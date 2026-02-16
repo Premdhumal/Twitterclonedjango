@@ -160,21 +160,25 @@ USE_TZ = True
 # ======================
 # STATIC FILES
 # ======================
+# ======================
+# STATIC FILES
+# ======================
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend', 'dist'),  # React build output
-]
+# Only include this if folder exists (prevents crash on Render)
+FRONTEND_DIST = os.path.join(BASE_DIR, 'frontend', 'dist')
+
+if os.path.exists(FRONTEND_DIST):
+    STATICFILES_DIRS = [FRONTEND_DIST]
+else:
+    STATICFILES_DIRS = []
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WHITENOISE_ALLOW_ALL_ORIGINS = True
-
-# Allow WhiteNoise to serve index.html
 WHITENOISE_INDEX_FILE = True
-
 
 # ======================
 # CLOUDINARY STORAGE (FINAL FIX)
