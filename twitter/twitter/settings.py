@@ -219,23 +219,35 @@ cloudinary.config(
 # CORS
 # ======================
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://twitterclonedjango.vercel.app",
+    origin.strip()
+    for origin in os.environ.get(
+        'CORS_ALLOWED_ORIGINS',
+        'http://localhost:5173,http://127.0.0.1:5173,https://twitterclonedjango.vercel.app'
+    ).split(',')
+    if origin.strip()
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://twitterclonedjango.vercel.app",
-]
+# In production, when frontend is served from same origin, allow all
+if not DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+    CSRF_TRUSTED_ORIGINS = [
+        origin.strip()
+        for origin in os.environ.get(
+            'CSRF_TRUSTED_ORIGINS',
+            'https://twitterclonedjango.vercel.app'
+        ).split(',')
+        if origin.strip()
+    ]
 
-SESSION_COOKIE_SAMESITE = "None"
-SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_SAMESITE = "None"
-CSRF_COOKIE_SECURE = True
-
+# Session cookie settings for production
+if not DEBUG:
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
 
 # ======================
 # REST FRAMEWORK
