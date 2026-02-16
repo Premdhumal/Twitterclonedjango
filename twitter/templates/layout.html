@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+
+    <title>
+        {% block title %}
+        Chai aur Django
+        {% endblock %}
+    </title>
+
+</head>
+
+
+<body class="bg-dark">
+
+
+<nav style="
+background:#0f172a;
+border-bottom:1px solid rgba(255,255,255,0.08);
+position:sticky;
+top:0;
+z-index:1000;
+">
+
+<div class="container">
+
+<div class="d-flex align-items-center justify-content-between py-3">
+
+
+    <!-- Left Logo -->
+    <a href="{% url 'tweet_list' %}" 
+       class="d-flex align-items-center gap-2 text-decoration-none">
+
+        <div style="
+        width:36px;
+        height:36px;
+        background:linear-gradient(135deg,#38bdf8,#6366f1);
+        border-radius:8px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:bold;
+        color:white;">
+            D
+        </div>
+
+        <span style="
+        color:white;
+        font-weight:600;
+        font-size:18px;">
+            DjangoTweet
+        </span>
+
+    </a>
+
+
+
+    <!-- Center Credit -->
+    <div class="d-flex align-items-center">
+
+        <span style="
+        color:#64748b;
+        font-size:14px;">
+            Project by 
+            <span style="color:#e2e8f0;font-weight:500;">
+                Prem Dhumal
+            </span>
+        </span>
+
+    </div>
+
+
+
+    <!-- Right side -->
+    <div class="d-flex align-items-center gap-3">
+
+
+        <!-- ADMIN BUTTON -->
+        <a href="/admin/" 
+           class="btn-admin text-decoration-none">
+            ⚙ Admin
+        </a>
+
+
+
+        {% if user.is_authenticated %}
+
+            <span style="color:#94a3b8;">
+                {{ user.username }}
+            </span>
+
+
+            <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-modern">
+                    Logout
+                </button>
+            </form>
+
+        {% else %}
+
+            <a href="{% url 'login' %}" 
+               class="btn-modern-outline text-decoration-none">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}" 
+               class="btn-modern text-decoration-none">
+                Register
+            </a>
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+</div>
+</nav>
+
+
+
+<style>
+
+/* Primary button */
+.btn-modern{
+background:#3b82f6;
+color:white;
+padding:6px 16px;
+border-radius:8px;
+text-decoration:none;
+font-weight:500;
+transition:0.2s;
+}
+
+.btn-modern:hover{
+background:#2563eb;
+color:white;
+}
+
+
+/* Outline button */
+.btn-modern-outline{
+border:1px solid #3b82f6;
+color:#3b82f6;
+padding:6px 16px;
+border-radius:8px;
+text-decoration:none;
+font-weight:500;
+transition:0.2s;
+}
+
+.btn-modern-outline:hover{
+background:#3b82f6;
+color:white;
+}
+
+
+/* ADMIN BUTTON STYLE */
+.btn-admin{
+border:1px solid #f59e0b;
+color:#f59e0b;
+padding:6px 16px;
+border-radius:8px;
+font-weight:500;
+transition:0.2s;
+}
+
+.btn-admin:hover{
+background:#f59e0b;
+color:white;
+}
+
+</style>
+
+
+
+<div class="container">
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+
+</body>
+</html>

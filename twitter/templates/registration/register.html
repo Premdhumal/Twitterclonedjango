@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+
+.register-wrapper{
+    min-height:85vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-top:40px;
+    padding-bottom:40px;
+}
+
+/* Card */
+.register-card{
+    width:100%;
+    max-width:420px;
+    background:#1e293b;
+    padding:32px 28px;
+    border-radius:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+/* Title */
+.register-title{
+    color:white;
+    text-align:center;
+    font-weight:600;
+    font-size:24px;
+}
+
+.register-subtitle{
+    color:#94a3b8;
+    text-align:center;
+    margin-bottom:22px;
+    font-size:14px;
+}
+
+/* Labels */
+.register-card label{
+    color:#cbd5e1;
+    font-size:14px;
+    margin-bottom:4px;
+}
+
+/* Inputs */
+.register-card input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,0.08);
+    background:#0f172a;
+    color:white;
+    margin-bottom:12px;
+    font-size:14px;
+}
+
+.register-card input:focus{
+    outline:none;
+    border-color:#38bdf8;
+    box-shadow:0 0 0 2px rgba(56,189,248,0.15);
+}
+
+/* Help text */
+.helptext{
+    display:block;
+    font-size:12px;
+    color:#64748b;
+    margin-top:-6px;
+    margin-bottom:10px;
+}
+
+/* Errors */
+.errorlist{
+    list-style:none;
+    padding:0;
+    margin:0 0 10px 0;
+    color:#ef4444;
+    font-size:13px;
+}
+
+/* Button */
+.register-btn{
+    width:100%;
+    padding:11px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#38bdf8,#6366f1);
+    color:white;
+    font-weight:600;
+    margin-top:8px;
+}
+
+.register-btn:hover{
+    opacity:0.9;
+}
+
+/* Bottom text */
+.login-link{
+    text-align:center;
+    margin-top:14px;
+    font-size:14px;
+    color:#94a3b8;
+}
+
+.login-link a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.login-link a:hover{
+    text-decoration:underline;
+}
+
+</style>
+
+
+<div class="register-wrapper">
+
+    <div class="register-card">
+
+        <div class="register-title">
+            Create Account
+        </div>
+
+        <div class="register-subtitle">
+            Join DjangoTweet today
+        </div>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+
+                <label>
+                    {{ field.label }}
+                </label>
+
+                {{ field }}
+
+                {% if field.help_text %}
+                    <small class="helptext">
+                        {{ field.help_text }}
+                    </small>
+                {% endif %}
+
+                {{ field.errors }}
+
+            {% endfor %}
+
+            <button type="submit" class="register-btn">
+                Create Account
+            </button>
+
+        </form>
+
+        <div class="login-link">
+            Already have an account?
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

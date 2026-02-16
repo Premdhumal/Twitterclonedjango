@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+
+/* Space from navbar */
+.create-wrapper{
+    margin-top:60px;
+    margin-bottom:40px;
+}
+
+/* Card styling */
+.create-card{
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border:1px solid rgba(255,255,255,0.06);
+    transition:0.3s;
+}
+
+.create-card:hover{
+    box-shadow:0 15px 35px rgba(0,0,0,0.45);
+}
+
+/* Textarea */
+.tweet-textarea{
+    border-radius:18px;
+    padding:18px;
+    font-size:16px;
+    resize:none;
+    background:#020617 !important;
+    border:1px solid rgba(255,255,255,0.06) !important;
+}
+
+.tweet-textarea:focus{
+    border-color:#38bdf8 !important;
+    box-shadow:0 0 0 3px rgba(56,189,248,0.15) !important;
+    background:#020617 !important;
+    color:white !important;
+}
+
+/* Upload box */
+.upload-box{
+    border:2px dashed rgba(255,255,255,0.15);
+    background:#020617;
+    transition:0.3s;
+}
+
+.upload-box:hover{
+    border-color:#38bdf8;
+}
+
+/* Submit button */
+.submit-btn{
+    background: linear-gradient(135deg,#38bdf8,#6366f1);
+    border:none;
+    font-weight:600;
+}
+
+.submit-btn:hover{
+    opacity:0.9;
+}
+
+/* Cancel link */
+.cancel-link{
+    color:#94a3b8;
+    transition:0.2s;
+}
+
+.cancel-link:hover{
+    color:white;
+}
+
+</style>
+
+
+<div class="container d-flex justify-content-center create-wrapper">
+
+    <div class="w-100" style="max-width:750px;">
+
+        <div class="p-5 rounded-4 shadow-lg create-card">
+
+            <!-- Title -->
+            <div class="text-center mb-4">
+
+                {% if form.instance.pk %}
+                    <h2 class="fw-bold text-white">
+                        Edit Tweet
+                    </h2>
+
+                    <p class="text-secondary small">
+                        Update your tweet ✏️
+                    </p>
+                {% else %}
+                    <h2 class="fw-bold text-white">
+                        Create a New Tweet
+                    </h2>
+
+                    <p class="text-secondary small">
+                        Share something interesting with the world ✨
+                    </p>
+                {% endif %}
+
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <!-- Textarea -->
+                <div class="mb-4">
+
+                    <textarea
+                        name="text"
+                        rows="5"
+                        class="form-control tweet-textarea text-white"
+                        placeholder="What's on your mind?"
+                        required
+                    >{{ form.instance.text }}</textarea>
+
+                </div>
+
+
+                <!-- Upload -->
+                <div class="mb-4 p-3 rounded-3 text-center upload-box">
+
+                    <label class="text-secondary mb-2 d-block">
+                        Add an image (optional)
+                    </label>
+
+                    <input type="file"
+                           name="photo"
+                           class="form-control bg-dark text-white border-0">
+
+                    {% if form.instance.photo %}
+                        <p class="mt-2 small text-info">
+                            Current: {{ form.instance.photo.name }}
+                        </p>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <a href="{% url 'tweet_list' %}"
+                       class="text-decoration-none cancel-link">
+
+                        ← Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn submit-btn px-5 rounded-pill text-white">
+
+                        {% if form.instance.pk %}
+                            Update Tweet
+                        {% else %}
+                            Post Tweet
+                        {% endif %}
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

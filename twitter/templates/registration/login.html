@@ -1,0 +1,243 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div style="
+min-height:80vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding-top:40px;
+padding-bottom:40px;
+">
+
+    <div style="
+    width:100%;
+    max-width:420px;
+    background:#1e293b;
+    padding:32px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 15px 40px rgba(0,0,0,0.45);
+    ">
+
+        <!-- Title -->
+        <h2 style="
+        color:white;
+        margin-bottom:6px;
+        text-align:center;
+        font-weight:600;
+        font-size:24px;
+        ">
+            Welcome Back
+        </h2>
+
+        <p style="
+        text-align:center;
+        color:#94a3b8;
+        font-size:14px;
+        margin-bottom:24px;
+        ">
+            Login to continue
+        </p>
+
+
+        <!-- FORM -->
+        <form method="post">
+
+            {% csrf_token %}
+
+
+            <!-- GLOBAL ERRORS -->
+            {% if form.non_field_errors %}
+                <div class="form-error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+
+            <!-- USERNAME -->
+            <div class="login-form">
+
+                <label>Username</label>
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="field-error">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+
+
+                <label>Password</label>
+                {{ form.password }}
+
+                {% if form.password.errors %}
+                    <div class="field-error">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- BUTTON -->
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+
+        <!-- REGISTER LINK -->
+        <div style="
+        margin-top:18px;
+        text-align:center;
+        color:#94a3b8;
+        font-size:14px;
+        ">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}"
+               style="
+               color:#38bdf8;
+               text-decoration:none;
+               font-weight:500;
+               ">
+               Register
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* INPUTS */
+
+.login-form input{
+
+width:100%;
+padding:10px 12px;
+margin-top:6px;
+margin-bottom:16px;
+
+background:#0f172a;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:8px;
+
+color:white;
+font-size:14px;
+
+outline:none;
+transition:0.2s;
+
+}
+
+/* INPUT FOCUS */
+
+.login-form input:focus{
+
+border-color:#38bdf8;
+box-shadow:0 0 0 2px rgba(56,189,248,0.25);
+
+}
+
+
+/* LABEL */
+
+.login-form label{
+
+color:#cbd5e1;
+font-size:14px;
+font-weight:500;
+
+}
+
+
+/* LOGIN BUTTON */
+
+.login-btn{
+
+width:100%;
+margin-top:6px;
+padding:11px;
+
+border:none;
+border-radius:8px;
+
+background:linear-gradient(135deg,#38bdf8,#6366f1);
+
+color:white;
+font-weight:500;
+font-size:15px;
+
+cursor:pointer;
+transition:0.25s;
+
+}
+
+
+/* BUTTON HOVER */
+
+.login-btn:hover{
+
+transform:translateY(-1px);
+box-shadow:0 8px 20px rgba(56,189,248,0.35);
+
+}
+
+
+/* GLOBAL ERROR BOX */
+
+.form-error{
+
+background:rgba(239,68,68,0.15);
+border:1px solid rgba(239,68,68,0.35);
+
+color:#fca5a5;
+
+padding:10px 12px;
+border-radius:8px;
+
+margin-bottom:16px;
+
+font-size:14px;
+
+}
+
+
+/* FIELD ERRORS */
+
+.field-error{
+
+color:#fca5a5;
+font-size:13px;
+margin-top:-10px;
+margin-bottom:10px;
+
+}
+
+
+/* REMOVE DJANGO BULLETS */
+
+.errorlist{
+
+list-style:none;
+padding:0;
+margin:0;
+
+}
+
+.errorlist li{
+margin:0;
+}
+
+</style>
+
+
+{% endblock %}

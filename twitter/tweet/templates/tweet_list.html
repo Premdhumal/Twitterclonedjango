@@ -1,0 +1,383 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container py-5" style="max-width: 900px;">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="text-white fw-bold">Tweet Feed</h2>
+
+        <a href="{% url 'tweet_create' %}"
+           class="btn new-tweet-btn">
+            + New Tweet
+        </a>
+
+    </div>
+
+
+    {% for tweet in tweets %}
+
+    <div class="split-card mb-4">
+
+        <!-- Image -->
+        {% if tweet.photo %}
+        <div class="split-image">
+            <img src="{{ tweet.photo.url }}">
+        </div>
+        {% endif %}
+
+
+        <!-- Content -->
+        <div class="split-content">
+
+
+            <!-- User Header -->
+            <div class="user-header">
+
+                <div class="avatar">
+                    {{ tweet.user.username|first|upper }}
+                </div>
+
+                <div class="user-info">
+
+                    <div class="username">
+                        {{ tweet.user.username }}
+                    </div>
+
+                    <div class="tweet-meta">
+                        Posted just now
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Tweet Text -->
+            <div class="tweet-text">
+                {{ tweet.text }}
+            </div>
+
+
+            <!-- Buttons -->
+            {% if tweet.user == user %}
+            <div class="tweet-actions">
+
+                <a href="{% url 'tweet_edit' tweet.id %}"
+                   class="btn action-edit">
+                    ✏ Edit
+                </a>
+
+                <a href="{% url 'tweet_delete' tweet.id %}"
+                   class="btn action-delete">
+                    🗑 Delete
+                </a>
+
+            </div>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<style>
+
+/* Card */
+
+.split-card{
+
+display:flex;
+
+background:linear-gradient(145deg,#0f172a,#020617);
+
+border-radius:18px;
+
+overflow:hidden;
+
+border:1px solid rgba(255,255,255,0.08);
+
+transition:0.3s;
+
+}
+
+.split-card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 20px 45px rgba(0,0,0,0.5);
+
+border:1px solid rgba(59,130,246,0.3);
+
+}
+
+
+/* Image */
+
+.split-image{
+
+width:40%;
+
+min-height:240px;
+
+}
+
+.split-image img{
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+}
+
+
+/* Content */
+
+.split-content{
+
+width:60%;
+
+padding:28px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+}
+
+
+/* User header spacing FIX */
+
+.user-header{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+margin-bottom:12px;
+
+}
+
+
+/* Avatar */
+
+.avatar{
+
+width:44px;
+
+height:44px;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,#38bdf8,#6366f1);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-weight:600;
+
+color:white;
+
+font-size:18px;
+
+flex-shrink:0;
+
+}
+
+
+/* Username container */
+
+.user-info{
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+}
+
+
+/* Username */
+
+.username{
+
+font-size:17px;
+
+font-weight:600;
+
+color:#e2e8f0;
+
+line-height:1.2;
+
+}
+
+
+/* Meta */
+
+.tweet-meta{
+
+font-size:13px;
+
+color:#64748b;
+
+margin-top:2px;
+
+}
+
+
+/* Tweet text */
+
+.tweet-text{
+
+font-size:16px;
+
+color:#cbd5e1;
+
+margin-bottom:16px;
+
+line-height:1.5;
+
+}
+
+
+/* Actions */
+
+.tweet-actions{
+
+display:flex;
+
+gap:10px;
+
+}
+
+
+/* Edit */
+
+.action-edit{
+
+border-radius:999px;
+
+padding:6px 16px;
+
+font-size:14px;
+
+background:rgba(245,158,11,0.1);
+
+border:1px solid rgba(245,158,11,0.4);
+
+color:#f59e0b;
+
+transition:0.2s;
+
+}
+
+.action-edit:hover{
+
+background:#f59e0b;
+
+color:white;
+
+}
+
+
+/* Delete */
+
+.action-delete{
+
+border-radius:999px;
+
+padding:6px 16px;
+
+font-size:14px;
+
+background:rgba(239,68,68,0.1);
+
+border:1px solid rgba(239,68,68,0.4);
+
+color:#ef4444;
+
+transition:0.2s;
+
+}
+
+.action-delete:hover{
+
+background:#ef4444;
+
+color:white;
+
+}
+
+
+/* New tweet button */
+
+.new-tweet-btn{
+
+background:linear-gradient(135deg,#38bdf8,#6366f1);
+
+border:none;
+
+padding:10px 20px;
+
+border-radius:999px;
+
+font-weight:500;
+
+color:white;
+
+transition:0.2s;
+
+}
+
+.new-tweet-btn:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 15px rgba(59,130,246,0.5);
+
+color:white;
+
+}
+
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.split-card{
+
+flex-direction:column;
+
+}
+
+.split-image,
+
+.split-content{
+
+width:100%;
+
+}
+
+}
+
+</style>
+
+
+{% endblock %}
