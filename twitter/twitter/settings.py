@@ -234,24 +234,30 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 # In production, when frontend is served from same origin, allow all
+# In production, when frontend is served from same origin, allow all
 if not DEBUG:
+    # Allow all origins for CORS to handle dynamic Vercel URLs
     CORS_ALLOW_ALL_ORIGINS = True
+    
+    # CSRF Trusted Origins (add wildcard for Vercel)
     CSRF_TRUSTED_ORIGINS = [
-        origin.strip()
-        for origin in os.environ.get(
-            'CSRF_TRUSTED_ORIGINS',
-            'https://twitterclonedjango.vercel.app'
-        ).split(',')
-        if origin.strip()
+        'https://twitterclonedjango.vercel.app',
+        'https://*.vercel.app'
     ]
+    
+    # Explicitly add enviroment variable origins
+    env_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+    for origin in env_origins:
+        if origin.strip():
+            CSRF_TRUSTED_ORIGINS.append(origin.strip())
 
-# Session cookie settings for production
-if not DEBUG:
-    SESSION_COOKIE_SAMESITE = 'Lax'
+    # Session cookie settings for production (Cross-Site)
+    SESSION_COOKIE_SAMESITE = 'None'
     SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SAMESITE = 'Lax'
+    CSRF_COOKIE_SAMESITE = 'None'
     CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = False
+    SECURE_SSL_REDIRECT = True
+
 
 # ======================
 # REST FRAMEWORK
