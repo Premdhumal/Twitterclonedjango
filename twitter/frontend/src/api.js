@@ -1,3 +1,8 @@
+export async function initCSRF() {
+  await fetch(`${API_BASE}/api/csrf/`, {
+    credentials: "include",
+  });
+}
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
 function getCookie(name) {
